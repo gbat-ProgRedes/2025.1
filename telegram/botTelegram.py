@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import socket, ssl, json
 
 TOKEN = "SEU TOKEN"
+=======
+import socket, ssl, json, time
+import mytoken
+
+TOKEN = mytoken.TOKEN
+>>>>>>> 1b57dd9 (mend)
 HOST  = "api.telegram.org"
 PORT  = 443
 

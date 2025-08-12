@@ -1,3 +1,5 @@
 .vs/*
+**/*.pyc
 avaliacoes/*
 private/*
+telegram/mytoken.py

@@ -16,13 +16,12 @@ def trataCliente(sockCon, origem):
                     if sock != sockCon:
                         sock.send(msg)
             else:
+                print (f"Fechando conexão com {origem} porque ele também fechou.")
                 allClients.remove(sockCon)
-                sockCon.close()
-                print ("Fechando conexão porque o cliente fechou.")
-    except:
+                break
+    except Exception as e:
+        print (f"Fechando conexão porque {origem} saiu abruptamente.")
         allClients.remove(sockCon)
-        sockCon.close()
-        print ("Fechando conexão porque o servidor caiu abruptamente.")
 
                 
 sockServer = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
