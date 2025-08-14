@@ -1,13 +1,6 @@
-<<<<<<< HEAD
-import socket, ssl, json
-
-TOKEN = "SEU TOKEN"
-=======
 import socket, ssl, json, time
-import mytoken
+import mytokens
 
-TOKEN = mytoken.TOKEN
->>>>>>> 1b57dd9 (mend)
 HOST  = "api.telegram.org"
 PORT  = 443
 
@@ -18,13 +11,19 @@ def conn_to():
     context = ssl.create_default_context(purpose)
     return context.wrap_socket(sock_tcp, server_hostname=HOST)
 
-def send_get (sock_tcp, cmd):
-    resource = "/bot"+TOKEN+"/"+cmd
+def send_get (sock_tcp, resource, headers):
     sock_tcp.send (("GET "+resource+" HTTP/1.1\r\n"+
-                    "Host: "+HOST+"\r\n"+
+                    headers+
                     "\r\n").encode("utf-8"))
         
-def get_reponse(sock_tcp):
+def send_post (sock_tcp, resource, headers, body): 
+    body = body.encode("utf-8")
+    sock_tcp.send (("POST "+resource+" HTTP/1.1\r\n"+
+                   "Content-Length: "+str(len(body))+"\r\n"+headers+
+                   "\r\n").encode("utf-8"))
+    sock_tcp.send(body)
+    
+def get_response(sock_tcp):
     answer = sock_tcp.recv(4096)
     header_body = answer.split(b"\r\n\r\n")
     headers, body = header_body[0].decode().split("\r\n"), header_body[1]
@@ -46,12 +45,44 @@ def get_reponse(sock_tcp):
         return (status_line, headers[1:], json.loads(body.decode()))    
     return (None, None, None)
 
-def get_updates():
-    sock_tcp = conn_to()
-    send_get(sock_tcp, "getUpdates")
-    status_line, headers, body = get_reponse(sock_tcp)
-    
-    for update in body["result"]:
-        print (update["message"]["chat"]["first_name"], "->", update["message"]["text"])
+def get_updates(sock_tcp, offset = 0):
+    cmd = f"getUpdates?offset={offset}"
+    resource = "/bot"+mytokens.TELEGRAM_TOKEN+"/"+cmd
+    headers = "Host: "+HOST+"\r\n"
+    send_get(sock_tcp, resource, headers)
+    status_line, headers, body = get_response(sock_tcp)    
+    return body["result"]
 
-get_updates()
+def show_update(update):
+    print (update["message"]["chat"]["first_name"], "->", update["message"]["text"])
+    
+def answer_update(update):
+    sock_tcp = conn_to()
+    chat_id  = update["message"]["chat"]["id"]
+    
+    answer = input ("Sua resposta: ")
+    body = '{"chat_id":'+str(chat_id)+', "text":"'+answer+'"}'
+    
+    cmd = "/sendMessage"
+    resource = "/bot"+mytokens.TELEGRAM_TOKEN+cmd
+    headers = ("Content-Type: application/json\r\n"+
+               "Host: "+HOST+"\r\n")
+    send_post(sock_tcp, resource, headers, body)
+    get_response(sock_tcp)
+    sock_tcp.close()
+    return update["update_id"]
+
+def main():
+    sock_tcp = conn_to()
+    print ("Aceitando updates ....")
+    last_update = 0
+    while True:
+        updates = get_updates(sock_tcp, last_update+1)
+        for update in updates:
+            show_update(update)
+            last_update = answer_update(update)
+        print ("-------------")
+        time.sleep(2)
+    sock_tcp.close()
+    
+main()
