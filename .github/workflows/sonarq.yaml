@@ -16,8 +16,9 @@ jobs:
 
       - name: Rodar SonarScanner local
         env:
-          SONAR_PROJECT: ${{ vars.SONAR_PROJECT }}
+          SONAR_PROJECT: ${{ github.repository }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # o home do host é na visao do scanner          
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         run: |
           sonar-scanner \
