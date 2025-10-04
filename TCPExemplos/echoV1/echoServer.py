@@ -9,7 +9,7 @@ tcpSock.bind((HOST, PORT))
 tcpSock.listen(5)
 
 while True:
-    print ('Esperando conexão ...')
+    print ('Esperando conexão ....')
     tcpCon, client = tcpSock.accept()
     print (f'Conexao de {client}')
     for _ in range(5):
