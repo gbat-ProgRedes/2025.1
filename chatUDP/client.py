@@ -11,5 +11,5 @@ while True:
         source, data = sockClient.recvfrom(512)
         print (source.decode())
     except Exception as e:
-        print (f"Erro. Processamento de mensagem.", e)            
+        print (f"Erro. Processamento de mensagem.", e)          
 socket.close()
