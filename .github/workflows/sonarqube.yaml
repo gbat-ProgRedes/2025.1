@@ -19,8 +19,10 @@ jobs:
           # Crie o nome do projeto (e principalmnte seu nome chave) 
           # no Sonarqube igual ao nome do repositorio 
           SONAR_PROJECT_KEY: ${{ github.repository }}
+          # Crie esse secret no nivel de organizaçao
           SONAR_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
-          # o home do host é na visao do scanner          
+          # Crie o nome do host no nivel de organizaçao
+          # e lembre que ele deve conter o home na visao da maquina do runner          
           SONAR_HOST_URL: ${{ vars.SONARQ_HOST_URL }}
         run: |
           sonar-scanner \
