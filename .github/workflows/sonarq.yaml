@@ -8,7 +8,7 @@ on:
 jobs:
   sonar:
     name: Run SonarScanner on Self-Hosted Runner
-    runs-on: [self-hosted, sonar]
+    runs-on: [self-hosted, sonarqube]
 
     steps:
       - name: Checkout código
@@ -16,13 +16,13 @@ jobs:
 
       - name: Rodar SonarScanner local
         env:
-          SONAR_PROJECT: ${{ github.repository }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ github.repository }}
+          SONAR_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
           # o home do host é na visao do scanner          
-          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ vars.SONARQ_HOST_URL }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=$SONAR_PROJECT \
+            -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
             -Dsonar.sources=. \
-            -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.host.url=$SONARQ_HOST_URL \
+            -Dsonar.login=$SONARQ_USER_TOKEN
