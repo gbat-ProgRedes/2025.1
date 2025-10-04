@@ -16,6 +16,8 @@ jobs:
 
       - name: Rodar SonarScanner local
         env:
+          # Crie o nome do projeto (e principalmnte seu nome chave) 
+          # no Sonarqube igual ao nome do repositorio 
           SONAR_PROJECT_KEY: ${{ github.repository }}
           SONAR_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
           # o home do host é na visao do scanner          
