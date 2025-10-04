@@ -1,0 +1,27 @@
+name: SonarQube Scan para ProgRedes 2023.1
+
+on:
+  push:                                                                                                            
+    branches:                                                                                                      
+      - main                                                                                                       
+                                                                                                                   
+jobs:
+  sonar:
+    name: Run SonarScanner on Self-Hosted Runner
+    runs-on: [self-hosted, sonar]
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Rodar SonarScanner local
+        env:
+          SONAR_PROJECT: ${{ vars.SONAR_PROJECT }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=$SONAR_PROJECT \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
