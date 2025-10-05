@@ -23,7 +23,7 @@ jobs:
           SONARQ_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
           # Crie o nome do host no nivel de organizaçao
           # e lembre que ele deve conter o home na visao da maquina do runner          
-          SONARQ_SERVER_URL: ${{ vars.SONARQ_HOST_URL }}
+          SONARQ_HOST_URL: ${{ vars.SONARQ_SERVER_URL }}
         run: |
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY) 
           sonar-scanner \
