@@ -26,12 +26,6 @@ jobs:
           SONARQ_HOST_URL: ${{ vars.SONARQ_HOST_URL }}
         run: |
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY) 
-          echo "project key $SONARQ_PROJECT_KEY"
-          echo sonar-scanner \
-            -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=$SONARQ_HOST_URL \
-            -Dsonar.login=$SONARQ_USER_TOKEN 
           sonar-scanner \
             -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
             -Dsonar.sources=. \
