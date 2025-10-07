@@ -1,4 +1,4 @@
-name: SonarQube Scan para ProgRedes 2025.1
+name: SonarQube Scan para ${{ github.repository }}-${{ github.ref_name }}
 
 on:
   push:
