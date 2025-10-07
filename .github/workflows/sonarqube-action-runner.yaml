@@ -4,6 +4,7 @@ on:
   push:
     branches:                                                                                                      
       - main
+      - teste
       
 jobs:
   sonar:
@@ -18,7 +19,7 @@ jobs:
         env:
           # Crie o nome do projeto (e principalmnte seu nome chave) 
           # no Sonarqube igual ao nome do repositorio 
-          SONARQ_PROJECT_KEY: ${{ github.repository }}
+          SONARQ_PROJECT_KEY: ${{ github.repository }}-${{ github.ref_name }}
           # Crie esse secret no nivel de organizaçao
           SONARQ_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
           # Crie o nome do host no nivel de organizaçao
