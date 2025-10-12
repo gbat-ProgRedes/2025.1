@@ -1,4 +1,5 @@
-name: SonarQube Scan para ${{ github.repository }}-${{ github.ref_name }}
+#name: SonarQube Scan para ${{ github.repository }}-${{ github.ref_name }}
+name: SonarQube Scan
 
 on:
   push:
@@ -17,10 +18,11 @@ jobs:
 
       - name: Download SonarScanner CLI
         run: |
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-          unzip sonar-scanner.zip
-          mv sonar-scanner-*/ sonar-scanner
-
+          if [ ! -f sonar-scanner ]; then
+             curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+             unzip sonar-scanner.zip
+             mv sonar-scanner-*/ sonar-scanner
+          fi
       - name: Run SonarScanner local
         env:
           # Crie o nome do projeto (e principalmnte seu nome chave) 
