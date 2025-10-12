@@ -1,6 +1,6 @@
 import socket, sys
 
-msgs = ['ola,', 'isso', 'eh', 'echo', 'client']
+msgs = ['ola,', 'isso', 'eh', 'echo', 'client.']
 HOST = '10.27.1.173'
 PORT = 12345
 
