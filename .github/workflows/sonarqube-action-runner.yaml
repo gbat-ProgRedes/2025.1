@@ -24,18 +24,28 @@ jobs:
           fi
       - name: Run SonarScanner local
         env:
-          # Crie o nome do projeto (e principalmnte seu nome chave) 
-          # no Sonarqube igual ao nome do repositorio 
-          SONARQ_PROJECT_KEY: ${{ github.repository }}-${{ github.ref_name }}
-          # Crie esse secret no nivel de organizaçao
+          # Crie esse secret no nivel de organizaçao 
           SONARQ_USER_TOKEN: ${{ secrets.SONARQ_USER_TOKEN }}
           # Crie o nome do host no nivel de organizaçao
           # e lembre que ele deve conter o home na visao da maquina do runner          
           SONARQ_HOST_URL: ${{ vars.SONARQ_SERVER_URL }}
         run: |
-          SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY) 
+          if [ "${{ github.event_name }}" = "pull_request" ];
+             GITHUB_BRANCH=${{ github.head_ref }}  
+             GITHUB_AUTHOR=${{ github.event.pull_request.user.login }}
+          else 
+             GITHUB_BRANCH=${{ github.ref_name }}
+             GITHUB_AUTHOR=${{ github.actor }}
+          fi
+          # Crie o nome do projeto (e principalmnte seu nome chave) 
+          # no Sonarqube igual ao nome do repositorio seguido de - 
+          # e do nome do desenvolvedor 
+          SONARQ_PROJECT_KEY=${{ github.repository }}-$GITHUB_AUTHOR
+          SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY)
           sonar-scanner/bin/sonar-scanner \
             -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
+            -Dsonar.branch.name=$GITHUB_BRANCH \
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONARQ_HOST_URL \
             -Dsonar.login=$SONARQ_USER_TOKEN
+ 
