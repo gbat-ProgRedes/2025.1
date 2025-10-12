@@ -18,13 +18,16 @@ jobs:
         
       - name: Download SonarScanner CLI
         run: |
-          if [ ! -f sonar-scanner/bin/sonar-scanner ]; then
+          push .
+          cd /home/runner
+          if [ ! -d sonar-scanner ]; then
              curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
              unzip sonar-scanner.zip
              mv sonar-scanner-*/ sonar-scanner
              pwd
-             ls -al 
+             ls -al
           fi
+          popd 
       - name: Run SonarScanner local
         env:
           # Crie esse secret no nivel de organizaçao 
@@ -53,7 +56,7 @@ jobs:
           curl -u $SONARQ_USER_TOKEN:  $SONARQ_HOST_URL/api/projects/create \
              -d name=$SONARQ_PROJECT_KEY -d project=$SONARQ_PROJECT_KEY
 
-          sonar-scanner/bin/sonar-scanner \
+          /home/runner/sonar-scanner/bin/sonar-scanner \
              -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
              -Dsonar.sources=. \
              -Dsonar.host.url=$SONARQ_HOST_URL \
