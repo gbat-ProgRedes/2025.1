@@ -42,9 +42,13 @@ jobs:
           fi
           SONARQ_PROJECT_KEY=${{ github.repository }}-$GITHUB_BRANCH-$GITHUB_EVENT-$GITHUB_ID
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY)
+
+          curl -v -u $SONAR_USER_TOKEN: -X POST $SONAR_SERVER_URL/api/projects/create" \
+             -d name=$SONARQ_PROJECT_KEY -d project=$SONARQ_PROJECT_KEY
+             
           sonar-scanner/bin/sonar-scanner \
-            -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
-            -Dsonar.sources=. \
-            -Dsonar.host.url=$SONARQ_HOST_URL \
-            -Dsonar.token=$SONARQ_USER_TOKEN
+             -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
+             -Dsonar.sources=. \
+             -Dsonar.host.url=$SONARQ_HOST_URL \
+             -Dsonar.token=$SONARQ_USER_TOKEN
  
