@@ -45,11 +45,12 @@ jobs:
           SONARQ_PROJECT_KEY=${{ github.repository }}-$GITHUB_BRANCH-$GITHUB_EVENT-$GITHUB_ID
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY)
 
-          curl -v -u $SONAR_USER_TOKEN: -X POST $SONAR_SERVER_URL/api/projects/create \
+          echo curl -v -u $SONAR_USER_TOKEN: $SONAR_SERVER_URL/api/permissions/add_user \
+             -d login=$GITHUB_AUTHOR -d permission=user -d projectKey=$SONARQ_PROJECT_KEY
+          
+          curl -v -u $SONAR_USER_TOKEN:  ${SONAR_SERVER_URL}/api/projects/create \
              -d name=$SONARQ_PROJECT_KEY -d project=$SONARQ_PROJECT_KEY
 
-          curl -v -u $SONAR_USER_TOKEN: -X POST $SONAR_SERVER_URL/api/permissions/add_user \
-             -d login=$GITHUB_AUTHOR -d permission=user -d projectKey=$SONARQ_PROJECT_KEY
              
           sonar-scanner/bin/sonar-scanner \
              -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
