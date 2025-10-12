@@ -2,10 +2,11 @@ name: SonarQube Scan for PNP-CCV
 
 on:
   push:
-    branches:                                                                                                      
-      - main
-      - teste
-      
+    branches:  [main, teste]
+  pull_request:
+    types: [opened, synchronize, reopened]  
+    branches:  [main, teste]
+    
 jobs:
   sonar:
     name: Run SonarScanner on Self-Hosted Runner
@@ -30,7 +31,7 @@ jobs:
           # e lembre que ele deve conter o home na visao da maquina do runner          
           SONARQ_HOST_URL: ${{ vars.SONARQ_SERVER_URL }}
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ];
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
              GITHUB_BRANCH=${{ github.head_ref }}
              GITHUB_EVENT="PR"
              GITHUB_ID=${{ github.event.pull_request.number }}
