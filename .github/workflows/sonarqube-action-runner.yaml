@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-
+        
       - name: Download SonarScanner CLI
         run: |
           if [ ! -d sonar-scanner ]; then
@@ -44,7 +44,6 @@ jobs:
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY)
           sonar-scanner/bin/sonar-scanner \
             -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
-            -Dsonar.branch.name=$GITHUB_BRANCH \
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONARQ_HOST_URL \
             -Dsonar.login=$SONARQ_USER_TOKEN
