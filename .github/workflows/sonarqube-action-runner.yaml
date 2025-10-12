@@ -15,7 +15,13 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Rodar SonarScanner local
+      - name: Download SonarScanner CLI
+        run: |
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner.zip
+          mv sonar-scanner-*/ sonar-scanner
+
+      - name: Run SonarScanner local
         env:
           # Crie o nome do projeto (e principalmnte seu nome chave) 
           # no Sonarqube igual ao nome do repositorio 
