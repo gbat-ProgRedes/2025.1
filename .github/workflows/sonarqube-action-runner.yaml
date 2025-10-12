@@ -38,7 +38,7 @@ jobs:
           else
              GITHUB_BRANCH=${{ github.ref_name }}
              GITHUB_EVENT="PUSH"
-             GITHUB_ID=${{ github.event.actor }}
+             GITHUB_ID=${{ github.actor }}
           fi
           SONARQ_PROJECT_KEY=${{ github.repository }}-$GITHUB_BRANCH-$GITHUB_EVENT-$GITHUB_ID
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY)
