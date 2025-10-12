@@ -18,7 +18,7 @@ jobs:
         
       - name: Download SonarScanner CLI
         run: |
-          push .
+          DIR=$(pwd)
           cd /home/runner
           if [ ! -d sonar-scanner ]; then
              curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
@@ -27,7 +27,7 @@ jobs:
              pwd
              ls -al
           fi
-          popd 
+          cd $DIR
       - name: Run SonarScanner local
         env:
           # Crie esse secret no nivel de organizaçao 
