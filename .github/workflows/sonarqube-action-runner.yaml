@@ -1,5 +1,4 @@
-name: SonarQube Scan para ${{ github.repository }}-${{ github.ref_name }}
-#name: SonarQube Scan
+name: SonarQube Scan for PNP-CCV
 
 on:
   push:
