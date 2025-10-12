@@ -18,10 +18,10 @@ jobs:
 
       - name: Download SonarScanner CLI
         run: |
-          if [ ! -f sonar-scanner ]; then
+          if [ ! -d sonar-scanner ]; then
              curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
              unzip sonar-scanner.zip
-             mv sonar-scanner-*/ /usr/sonar/sonar-scanner
+             mv sonar-scanner-*/ sonar-scanner
           fi
       - name: Run SonarScanner local
         env:
@@ -35,7 +35,7 @@ jobs:
           SONARQ_HOST_URL: ${{ vars.SONARQ_SERVER_URL }}
         run: |
           SONARQ_PROJECT_KEY=$(basename $SONARQ_PROJECT_KEY) 
-          /usr/sonar/sonar-scanner \
+          sonar-scanner/bin/sonar-scanner \
             -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
             -Dsonar.sources=. \
             -Dsonar.host.url=$SONARQ_HOST_URL \
