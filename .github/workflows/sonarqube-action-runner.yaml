@@ -30,7 +30,7 @@ jobs:
           # e lembre que ele deve conter o home na visao da maquina do runner          
           SONARQ_HOST_URL: ${{ vars.SONARQ_SERVER_URL }}
         run: |
-          if [ "${{ github.event_name }}" = "pull_request" ];
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
              GITHUB_BRANCH=${{ github.head_ref }}  
              GITHUB_AUTHOR=${{ github.event.pull_request.user.login }}
           else 
