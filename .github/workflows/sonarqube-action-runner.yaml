@@ -23,7 +23,8 @@ jobs:
              curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
              unzip sonar-scanner.zip
              mv sonar-scanner-*/ sonar-scanner
-             ls -al sonar-scanner
+             pwd
+             ls -al 
           fi
       - name: Run SonarScanner local
         env:
@@ -59,5 +60,5 @@ jobs:
              -Dsonar.host.url=$SONARQ_HOST_URL \
              -Dsonar.token=$SONARQ_USER_TOKEN
 
-          ls -al sonar-scanner
+          ls -al 
  
