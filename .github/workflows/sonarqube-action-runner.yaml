@@ -57,8 +57,6 @@ jobs:
           echo curl -u $SONARQ_USER_TOKEN: $SONARQ_HOST_URL/api/permissions/add_user \
              -d login=$GITHUB_AUTHOR -d permission=user -d projectKey=$SONARQ_PROJECT_KEY
 
-          curl -u $SONARQ_USER_TOKEN:  $SONARQ_HOST_URL/api/projects/search?$SONARQ_PROJECT_KEY
-             
           /home/runner/sonar-scanner/bin/sonar-scanner \
              -Dsonar.projectKey=$SONARQ_PROJECT_KEY \
              -Dsonar.sources=. \
