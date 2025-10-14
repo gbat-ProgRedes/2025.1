@@ -55,8 +55,8 @@ jobs:
              -d project=$SONARQ_PROJECT_KEY -d visibility=private 
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            curl -s -u $SONARQ_USER_TOKEN: $SONARQ_HOST_URL/api/permissions/add_user \
-               -d login=$GITHUB_AUTHOR -d permission=user -d projectKey=$SONARQ_PROJECT_KEY
+             curl -s -u $SONARQ_USER_TOKEN: $SONARQ_HOST_URL/api/permissions/add_user \
+                -d login=$GITHUB_AUTHOR -d permission=user -d projectKey=$SONARQ_PROJECT_KEY
           fi
           
           /home/runner/sonar-scanner/bin/sonar-scanner \
